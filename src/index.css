@@ -1,0 +1,182 @@
+:root {
+  --primary: #0B4B6F;
+  --gradient: linear-gradient(to right, #0B4B6F, #9ACDCB);
+  --secondary: #9ACDCB;
+}
+@font-face {
+  src: url('https://foundr.com/ecommerce-vart-masterclass-src/fonts/HelveticaNeueLTStd-BdCn.woff2');
+  font-family: 'Helvetica Bold';
+ }
+ 
+ @font-face {
+  src: url('https://foundr.com/ecommerce-vart-masterclass-src/fonts/HelveticaNeueLTStd-LtCn.woff2');
+  font-family: 'Helvetica Light';
+ }
+ 
+ @font-face {
+  src: url('https://foundr.com/ecommerce-vart-masterclass-src/fonts/HelveticaNeueLTStd-Cn.woff2');
+  font-family: 'Helvetica Mid';
+ }
+
+ body {
+  padding: 0px;
+  margin: 0px;
+ }
+ 
+ body :where(p, h1, h2, h3, div, span, small, h4, h5, h6) {
+  font-family: 'Helvetica Mid' !important; 
+ }
+ 
+ .thin {
+   font-family: 'Helvetica Light' !important; 
+ }
+ 
+ b, button {
+  font-family: 'Helvetica Bold'; 
+ }
+
+ .btn-shadow {
+  box-shadow: 0 0 20px #0B4B6F30;
+ }
+
+.fullwidth {
+  width: 100%;
+}
+
+.border10 {
+  border-radius: 10px;
+}
+
+.border20 {
+  border-radius: 20px;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.mid {
+  width: 600px;
+}
+
+.margin-auto {
+  margin: 10px auto;
+}
+
+/* Camera component */
+
+.camera-component {
+  text-align: center;
+}
+
+.camera-component video {
+  border-radius: 20px;
+  border: 5px solid var(--secondary);
+  overflow: hidden;
+  box-shadow: -10px 10px 20px #0000003e;
+}
+
+.camera-component video.portrait {
+  aspect-ratio: 9/12 !important;
+  height: 400px !important;
+  width: fit-content !important;
+}
+
+.camera-component video.landscape {
+  aspect-ratio: 12/9 !important;
+  width: 500px !important;
+}
+
+.editor {
+  position: relative;
+  height: 500px;
+  width: 400px;
+  overflow: hidden;
+  border-radius: 20px;
+  background-color: #384149;
+}
+
+.editor img {
+  position: absolute;
+  width: 100%;
+}
+
+.editor div {
+  position: absolute;
+  top: 0;
+  left: 0px;
+  width: 400px;
+  height: 500px;
+  background-position: center;
+  background-size: cover;
+  border-radius: 20px;
+}
+
+.editor img.img-2 {
+  z-index: 2;
+}
+
+.editor div.img-1 {
+  z-index: 1;
+}
+
+.editor div.img-3 {
+  z-index: 3;
+}
+
+.controls input[type="range"] {
+  -webkit-appearance: none;  /* Override default CSS styles */
+  appearance: none;
+  width: 100%; /* Full-width */
+  height: 15px; /* Specified height */
+  background: #d3d3d3; /* Grey background */
+  outline: none; /* Remove outline */
+  opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+  -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+  transition: opacity .2s;
+  border-radius: 300px;
+}
+.controls input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 23px;
+  height: 24px;
+  border: 0;
+  border-radius: 100px;
+  background: #0B4B6F;
+  cursor: pointer;
+  background-size: contain;
+  background-repeat: no-repeat;
+  transform: scale(1.2);
+}
+.controls input[type="range"]::-moz-range-thumb {
+  width: 23px;
+  height: 25px;
+  border: 0;
+  background: #0B4B6F;
+  cursor: pointer;
+  border-radius: 100px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  transform: scale(1.2);
+}
+
+.remove-br {
+  border-radius: 0px !important;
+}
+
+@media screen and (max-width: 600px) {
+  .mid {
+    width: 100% !important;
+  }
+
+  .editor {
+    width: 100%;
+    height: 450px;
+  }
+
+  .editor div {
+    width: 100%;
+    height: 450px;
+  }
+}

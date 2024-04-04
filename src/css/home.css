@@ -1,0 +1,13 @@
+.home-page {
+    background-image: url('/public/assets/desktop_bg.png');
+    background-size: cover;
+    background-position: top;
+    min-height: 100vh;
+}
+
+@media screen and (max-width: 600px) {
+    .home-page {
+        background-image: url('/public/assets/mobile_bg.png');
+        background-position: top;
+    }
+}

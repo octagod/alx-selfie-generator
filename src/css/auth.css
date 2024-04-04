@@ -1,0 +1,31 @@
+input {
+    border: 0px solid transparent;
+    background-color: #EFF1F6;
+    border-radius: 15px;
+    padding: 15px 10px;
+    width: calc(100% - 20px) !important;
+    margin-top: 5px;
+    font-size: 18px;
+}
+
+textarea {
+    border: 0px solid transparent;
+    background-color: #EFF1F6;
+    border-radius: 15px;
+    padding: 15px 10px;
+    width: calc(100% - 20px) !important;
+    margin-top: 5px;
+    font-size: 18px;
+    height: 150px;
+    resize: none;
+}
+
+select {
+    border: 0px solid transparent;
+    background-color: #EFF1F6;
+    border-radius: 15px;
+    padding: 15px 10px;
+    width: calc(100%) !important;
+    margin-top: 5px;
+    font-size: 18px;
+}
