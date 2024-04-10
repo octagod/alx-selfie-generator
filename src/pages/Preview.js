@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import { updateimage } from "../features/images";
 import '../css/home.css'
 import Footer from "../components/Footer";
+import Toast from "../components/Toast";
 
 const Preview = ({ title }) => {
     document.querySelector("title").innerHTML = title
@@ -15,6 +16,10 @@ const Preview = ({ title }) => {
     const file = useSelector(state => state.file.value)
 
     const dispatch = useDispatch()
+
+    const [open, setOpen] = useState(false);
+    const [severity, setSeverity] = useState('success');
+    const [msg, setToastMsg] = useState('');
 
     const [loading, setLoading] = useState(false)
 
@@ -27,37 +32,45 @@ const Preview = ({ title }) => {
 
         formData.append("image_file", file);
 
-        const response = await fetch("https://sdk.photoroom.com/v1/segment",
-            {
-                method: "POST",
-                headers: { "x-api-key": process.env.REACT_APP_PHOTOROOM_API },
-                body: formData
-            }
-        );
-
-        const stream = response.body;
-
-        // Create a Blob object from the stream
-        const blob = await new Response(stream).blob();
-
-        // Create a FileReader to read the Blob as an array buffer
-        const reader = new FileReader();
-
-        reader.onload = (event) => {
-            const imageData = event.target.result; // Image data as an array buffer
-            const blob = new Blob([imageData], { type: 'image/png' });
-            const imageUrl = URL.createObjectURL(blob); // Create a temporary URL for the Blob
-            dispatch(updateimage(imageUrl))
+        try {
+            const response = await fetch("https://sdk.photoroom.com/v1/segment",
+                {
+                    method: "POST",
+                    headers: { "x-api-key": process.env.REACT_APP_PHOTOROOM_API },
+                    body: formData
+                }
+            );
+    
+            const stream = response.body;
+    
+            // Create a Blob object from the stream
+            const blob = await new Response(stream).blob();
+    
+            // Create a FileReader to read the Blob as an array buffer
+            const reader = new FileReader();
+    
+            reader.onload = (event) => {
+                const imageData = event.target.result; // Image data as an array buffer
+                const blob = new Blob([imageData], { type: 'image/png' });
+                const imageUrl = URL.createObjectURL(blob); // Create a temporary URL for the Blob
+                dispatch(updateimage(imageUrl))
+                setLoading(false)
+                navigate('/selection')
+            };
+    
+            reader.onerror = (error) => {
+                console.error(error); // Handle errors during reading
+            };
+    
+            // Read the Blob as an array buffer using async/await
+            await reader.readAsArrayBuffer(blob);
+        } catch (err) {
+            setToastMsg(err.message)
+            setSeverity('error')
+            setOpen(true)
             setLoading(false)
-            navigate('/selection')
-        };
+        }
 
-        reader.onerror = (error) => {
-            console.error(error); // Handle errors during reading
-        };
-
-        // Read the Blob as an array buffer using async/await
-        await reader.readAsArrayBuffer(blob);
     }
 
     useEffect(() => {
@@ -68,6 +81,7 @@ const Preview = ({ title }) => {
 
     return (
         <div className="preview-page home-page">
+            <Toast open={open} setOpen={setOpen} severity={severity} timer={3000}>{msg}</Toast>
             <Container>
                 <div style={{ height: '15vh' }}></div>
                 {file.type && <Flexbox justifyContent="center">

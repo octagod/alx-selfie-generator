@@ -12,7 +12,8 @@ import CustomGrid from "../components/styles/Grid";
 import { isMobile } from "react-device-detect";
 import '../css/home.css'
 
-const Editor = () => {
+const Editor = ({ title }) => {
+    document.querySelector('title').innerHTML = title
     const image = useSelector(state => state.image.value)
 
     const { id } = useParams()
@@ -28,6 +29,8 @@ const Editor = () => {
     const [msg, setToastMsg] = useState('');
 
     const navigate = useNavigate()
+
+    const [engine, setEngine] = useState(null);
 
 
     const changeXVal = (action) => {
@@ -77,10 +80,68 @@ const Editor = () => {
         link.remove()
     }
 
+    const moveUp = (event) => {
+        clearInterval(engine)
+        if (isMobile)
+            event.preventDefault() // Prevents context menu in mobile
+        let y = translateY
+        const newEngine = setInterval(() => {
+            y = y - 5
+            setTranslateY(y)
+            console.log("running", y)
+        }, 300);
+        setEngine(newEngine)
+    }
+
+    const moveDown = (event) => {
+        clearInterval(engine)
+        if (isMobile)
+            event.preventDefault() // Prevents context menu in mobile
+        let y = translateY
+        const newEngine = setInterval(() => {
+            y = y + 5
+            setTranslateY(y)
+            console.log("running", y)
+        }, 300);
+        setEngine(newEngine)
+    }
+
+    const moveLeft = (event) => {
+        clearInterval(engine)
+        if (isMobile)
+            event.preventDefault() // Prevents context menu in mobile
+        let x = translateX
+        const newEngine = setInterval(() => {
+            x = x - 5
+            setTranslateX(x)
+            console.log("running", x)
+        }, 300);
+        setEngine(newEngine)
+    }
+
+    const moveRight = (event) => {
+        clearInterval(engine)
+        if (isMobile)
+            event.preventDefault() // Prevents context menu in mobile
+        let x = translateX
+        const newEngine = setInterval(() => {
+            x = x + 5
+            setTranslateX(x)
+            console.log("running", x)
+        }, 300);
+        setEngine(newEngine)
+    }
+
+    const stopEngine = () => {
+        clearInterval(engine)
+        setEngine(null)
+    }
+
     useEffect(() => {
         if (image.length < 1) {
             navigate('/')
         }
+        return () => clearInterval(engine)
         // eslint-disable-next-line
     }, [])
 
@@ -92,7 +153,7 @@ const Editor = () => {
                 <div style={{ height: isMobile ? '40vh' : '35vh' }}></div>
                 <div>
                     <IconButton onClick={() => navigate('/selection')}>
-                        <ArrowBack style={{ color: 'var(--primary)'}}/>
+                        <ArrowBack style={{ color: 'var(--primary)' }} />
                     </IconButton>
                 </div>
                 {isMobile && <Spacebox padding="10px" />}
@@ -106,32 +167,34 @@ const Editor = () => {
                     </Flexbox>
                     <Flexbox justifyContent="center" alignItems="center">
                         <div className="controls" style={{ width: '100%' }}>
-                            {isMobile && <Typography variant={isMobile ? 'h5' : 'h4'} textAlign="center">
-                                Reposition your selfie
-                            </Typography>}
                             {!isMobile && <Typography variant={isMobile ? 'h5' : 'h4'}>
                                 Reposition your selfie
                             </Typography>}
-                            <Spacebox padding="20px" />
+                            {!isMobile && <Spacebox padding="20px" />}
                             <div className="">
                                 <Flexbox justifyContent="center">
-                                    <IconButton onClick={() => changeYVal("minus")}>
+                                    <IconButton onClick={() => changeYVal("minus")} onMouseDown={moveUp} onMouseUp={stopEngine} onTouchStart={moveUp} onTouchEnd={stopEngine}>
                                         <img src="/assets/arrow-up.png" alt="arrow-up" className="btn-shadow" style={{ width: isMobile ? '55px' : '70px', borderRadius: '10px' }} />
                                     </IconButton>
                                 </Flexbox>
-                                <Flexbox justifyContent="space-between" alignItems="center" style={{width: '70%', margin: 'auto'}}>
-                                    <IconButton onClick={() => changeXVal("minus")}>
+                                <Flexbox justifyContent="space-between" alignItems="center" style={{ width: '70%', margin: 'auto' }}>
+                                    <IconButton onClick={() => changeXVal("minus")} onMouseDown={moveLeft} onTouchStart={moveLeft} onMouseUp={stopEngine} onTouchEnd={stopEngine}>
                                         <img src="/assets/arrow-left.png" alt="arrow-up" className="btn-shadow" style={{ width: isMobile ? '55px' : '70px', borderRadius: '10px' }} />
                                     </IconButton>
-                                    <IconButton onClick={() => changeXVal("add")}>
+                                    {isMobile && (
+                                        <IconButton onClick={() => changeYVal("add")} onMouseDown={moveDown} onTouchStart={moveDown} onMouseUp={stopEngine} onTouchEnd={stopEngine}>
+                                            <img src="/assets/arrow-down.png" alt="arrow-up" className="btn-shadow" style={{ width: isMobile ? '55px' : '70px', borderRadius: '10px' }} />
+                                        </IconButton>
+                                    )}
+                                    <IconButton onClick={() => changeXVal("add")} onMouseDown={moveRight} onTouchStart={moveRight} onMouseUp={stopEngine} onTouchEnd={stopEngine}>
                                         <img src="/assets/arrow-right.png" alt="arrow-up" className="btn-shadow" style={{ width: isMobile ? '55px' : '70px', borderRadius: '10px' }} />
                                     </IconButton>
                                 </Flexbox>
-                                <Flexbox justifyContent="center">
-                                    <IconButton onClick={() => changeYVal("add")}>
+                                {!isMobile && <Flexbox justifyContent="center">
+                                    <IconButton onClick={() => changeYVal("add")} onMouseDown={moveDown} onTouchStart={moveDown} onMouseUp={stopEngine} onTouchEnd={stopEngine}>
                                         <img src="/assets/arrow-down.png" alt="arrow-up" className="btn-shadow" style={{ width: isMobile ? '55px' : '70px', borderRadius: '10px' }} />
                                     </IconButton>
-                                </Flexbox>
+                                </Flexbox>}
                             </div>
                             <Spacebox padding="10px" />
                             <Flexbox justifyContent="space-between" alignItems="center">
@@ -148,7 +211,8 @@ const Editor = () => {
                                 <Spacebox padding="5px" />
                                 <Add style={{ color: 'var(--primary)' }} />
                             </Flexbox>
-                            <Spacebox padding="10px" />
+                            {isMobile && <Spacebox padding="5px" />}
+                            {!isMobile && <Spacebox padding="10px" />}
                             <Flexbox justifyContent="space-between" alignItems="center">
                                 <RotateLeft style={{ color: 'var(--primary)' }} />
                                 <Spacebox padding="5px" />
