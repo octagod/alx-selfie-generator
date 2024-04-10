@@ -161,7 +161,7 @@ const Editor = ({ title }) => {
                     <Flexbox justifyContent="center" alignItems="center">
                         <div className="editor">
                             <div className="img-1" style={{ backgroundImage: `url(/assets/base-image${id ?? 1}.png)` }}></div>
-                            <img className="img-2" src={image} style={{ transform: `translate(${translateX}px, ${translateY}px) scale(${scale}) rotate(${rotate}deg)`, }} alt="" />
+                            <img className="img-2" src={image} style={{ transform: `translate(${translateX}px, ${translateY}px) scale(${scale}) rotate(${rotate}deg)`,transition: '.7s ease' }} alt="" />
                             <div className="img-3" style={{ backgroundImage: `url(/assets/base-image${id ?? 1}-cust.png)` }}></div>
                         </div>
                     </Flexbox>
